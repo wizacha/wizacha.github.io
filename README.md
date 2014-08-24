@@ -12,4 +12,6 @@ Autre solution, installer [Docker](https://docs.docker.com/installation/#install
 et éxecuter `sudo docker run --rm -v "$PWD:/src" -p 4000:4000 grahamc/jekyll serve --watch` depuis
 le répertoire des sources.
 
+**Note:** Pour visualiser en local les [brouillons de post](http://jekyllrb.com/docs/drafts/), il suffit de rajouter l'option `--drafts`.
+
 
