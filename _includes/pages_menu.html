@@ -1,15 +1,12 @@
-{% for i in (1..20) %}
-    {% for _page in site.pages %}
-        {% if _page.order == i %}
-            <li class="{% if _page.path == page.path or _page.path == page.nav_path %}active{% endif %}">
-                <a href="{{ _page.url }}">
-                    {% if _page.short_title %}
-                        {{ _page.short_title }}
-                    {% else %}
-                        {{ _page.title }}
-                    {% endif %}
-                </a>
-            </li>
-        {% endif %}
-    {% endfor %}
+{% comment %}=================================
+In a page front-matter
+* use 'order' attribute to sort pages in menu
+* use 'nav-exclude' attribute to exclude pages from menu
+==============================={% endcomment %}
+
+{% assign sorted_pages = (site.pages | sort: 'order' | where: 'nav-exclude', nil) %}
+{% for _page in sorted_pages %}
+    <li class="{% if _page.path == page.path or _page.path == page.nav_path %}active{% endif %}">
+        <a href="{{ _page.url }}">{{ _page.title }}</a>
+    </li>
 {% endfor %}
