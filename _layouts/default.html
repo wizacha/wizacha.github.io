@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="fr">
+    <head>
+        {% include head.html %}
+
+        <title>{{site.name}} - {{ page.title }}</title>
+    </head>
+    <body>
+        {% include navbar.html %}
+
+        <div class="container">
+
+            {{ content }}
+
+            <footer>
+                {% include footer.html %}
+            </footer>
+        </div>
+
+        {% include javascript.html %}
+    </body>
+</html>

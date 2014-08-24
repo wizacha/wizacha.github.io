@@ -1,0 +1,14 @@
+footer {
+    margin: 40px 0;
+    padding: 20px 0;
+    border-top: 1px solid;
+}
+
+.post_footer {
+    margin: 40px
+}
+
+.img-center {
+    margin: 0 auto;
+    height: 200px;
+}

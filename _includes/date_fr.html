@@ -1,0 +1,4 @@
+{% assign date = include.date %}
+{% for _month in site.data.months %}
+        {% assign date = date | replace: $_month[0], $_month[1] %}
+{% endfor %}{{ date }}
