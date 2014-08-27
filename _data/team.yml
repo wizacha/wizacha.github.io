@@ -4,7 +4,8 @@ benoit:
   avatar: https://avatars.githubusercontent.com/b-viguier
   twitter: b_viguier
   job: CTO
-  skill: Code Architecte
+  skill: Code Design
+  quote: C'est dans le sprint?
 
 arnaud:
   name_full: Arnaud Benassy
@@ -13,6 +14,7 @@ arnaud:
   twitter: abenassy
   job: Développeur
   skill: Frontend
+  quote: Ça se mange?
 
 guillaume:
   name_full: Guillaume Rossignol
@@ -21,4 +23,4 @@ guillaume:
   twitter: WizRossignolGui
   job: Développeur
   skill: DevOps
- 
+  quote: C'est monitoré?

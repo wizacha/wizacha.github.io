@@ -30,7 +30,13 @@ order: 15
         <h3>{{member[1].name_full}}
             <small>{{ member[1].job}}</small>
         </h3>
-        <p>{{ member[1].skill}}</p>
+        <dl class="dl-horizontal">
+            <dt>Spécialité</dt>
+            <dd class="text-left">{{member[1].skill}}</dd>
+
+            <dt>Citation</dt>
+            <dd class="text-left"><q>{{member[1].quote}}</q></dd>
+        </dl>
         <p>
             <a href="https://twitter.com/{{member[1].twitter}}" class="twitter-follow-button" data-show-count="false" data-size="large">Suivre {{@member[1].twitter}}</a>
         </p>
