@@ -9,7 +9,7 @@ benoit:
 arnaud:
   name_full: Arnaud Benassy
   name_short: Arnaud
-  avatar: https://bitbucket-assetroot.s3.amazonaws.com/c/photos/2014/Jul/20/arnaud_benassy-avatar-1731072550-5.png
+  avatar: https://avatars.githubusercontent.com/ArnaudBenassy
   twitter: abenassy
   job: Développeur
   skill: Frontend
@@ -17,7 +17,7 @@ arnaud:
 guillaume:
   name_full: Guillaume Rossignol
   name_short: Guillaume
-  avatar: https://bitbucket-assetroot.s3.amazonaws.com/c/photos/2014/Jan/13/guillaume_rossignol-avatar-5937160-1.png
+  avatar: https://avatars.githubusercontent.com/Guillaume-Rossignol
   twitter: WizRossignolGui
   job: Développeur
   skill: DevOps
