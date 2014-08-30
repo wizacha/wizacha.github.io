@@ -31,7 +31,9 @@ order: 5
                 {% endfor %}
             </p>
             <hr>
-            <img class="img-responsive" src="/images/{{post.banner}}" alt="{{post.title}}">
+            <a href="{{ post.url }}">
+                <img class="img-responsive" src="/images/{{post.banner}}" alt="{{post.title}}">
+            </a>
             <hr>
             <p>{{ post.excerpt }}</p>
             <a class="btn btn-primary" href="{{ post.url }}">Lire <span class="glyphicon glyphicon-chevron-right"></span></a>
