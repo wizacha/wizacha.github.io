@@ -38,9 +38,16 @@ nav_path: blog/index.html
         <!-- Post Content -->
         {{ content }}
         <hr>
-        <p class="small text-right">
-            <a href="{{site.github_blog_url}}{{ page.path }}">Une correction à apporter?</a>
-        </p>
+        <div class="row">
+            <div class="col-md-6">
+                <a href="https://twitter.com/share" class="twitter-share-button" data-count="none">Tweet</a>
+            </div>
+            <div class="col-md-6">
+                <p class="small text-right">
+                    <a href="{{site.github_blog_url}}{{ page.path }}">Une correction à apporter?</a>
+                </p>
+            </div>
+        </div>
 
         <!-- Pager -->
         <div class="post_footer">
