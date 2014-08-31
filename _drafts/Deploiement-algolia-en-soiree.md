@@ -3,30 +3,74 @@ layout: post
 title: Petite histoire de la mise en production d'algolia
 category: blog
 tags: Wizacha Algolia Deploiement Anecdote
-author: Guillaume
+author: guillaume
 banner: wizacha-behind-the-scenes.png
 ---
 
+#Préambule
+##Notre stack technique
+Pour les besoins de cet article, voici une description partielle de notre stack. Il y aura certainement une article plus complet un jour pour décrire toute notre architecture.
+
+* [Jenkins](http://jenkins-ci.org/) : Pour lancer les tests, les déploiements, etc.
+* [Atoum](https://github.com/atoum/atoum) : Pour les tests unitaires
+* [BBQ](https://github.com/eventio/bbq) : Pour la mise en queue d'actions
+* [AWS](http://aws.amazon.com/) : Comme solution de cloud, et notamment : 
+ * Cloudformation : Permet de déployer un ensemble de machines et de service 
+ * SQS : Systéme de file de message (on a écrit un driver pour BBQ)
+
+##Notre architecture web
+Notre marketplace tourne sous CsCart.
+A chaque déploiement, nous lançons, via un template CloudFormation et un ensemble de script bash : 
+
+* Un groupe de machines pour le back-marchant
+* Un groupe de machines pour le front-client {{site.wizacha}}
+* Un groupe de machines pour l'API
+* Un groupe de machines workers pour la gestion des messages en file
+* La mise en place de la doc de l'API en static sur [S3](http://docs.aws.amazon.com/gettingstarted/latest/swh/website-hosting-intro.html)  
+
 #Introduction
 L'objectif principal de ce [sprint](http://fr.wikipedia.org/wiki/Scrum_%28m%C3%A9thode%29#Le_sprint)
-était l'intégration du moteur de recherche [Algolia](https://www.algolia.com/) afin d'avoir
-quelque chose de plus sympathique au niveau de resultat de recherche que ce que fournit CsCart de base.
+était l'intégration d'un moteur de recherche pour palier le manque de glamour de la recherche de CsCart.
 
-Nous nous sommes donc retrouvé à tester la fusion de la branche algolia avec la branche principal le vendredi après-midi.
-Quelques corrections de bugs plus loin, on décide de mettre en prod dans l'après-midi si tout se passe bien puisque le
-rollback sur cette fonctionnalité est immédiat et sans perte de données. Quatre heure de l'apres-midi, on finalise deux
-trois corrections, on pousse sur bitbucket, on lance les tests.
+##Les choix techniques
+Nous avons envisagé un temps de gérer une base de donnée NoSQL pour la gestion des recherches. Finalement
+suite à une discution avec la maitrise d'ouvrage, tout le monde était d'accord pour utiliser une solution 
+«toute prête».
 
-**PAF** echec. Rapide coup d'oeil au rapport. C'est un bout de code que j'ai donné mais qui a été recopié sans vérifier
-et sans relancer le test en local. Zou, on coupe la poire en deux, on prend chaqun la moitié des pompes, on corrige vite
-fait, on pousse, on relance les tests. «Question bête, on a donné les droits d'accès à l'application sur la queue ?» ...
-«Euh...».
+Nous avons retenu [Algolia](https://www.algolia.com/).
 
-«Bon, ils en sont où les tests ?», «Zut, coincé sur la resolution des dépendances, on a eu un soucis réseau au mauvais
-moment, je relance !»
+###Coté back
+La mise a jour des données dans algolia sera fait de maniere asynchrone grâce aux files de message.
+Ça permet de garantir que les données seront toujours à peu prés juste même si on a une panne réseau temporaire. 
+Ça permet aussi de ne pas se poser la question de ce qu'il faut faire lorsqu'un marchand veut mettre à jour un produit et qu'Algolia n'est pas disponible. Le message restera juste un peu plus longtemps dans la file. (**ALERTE SPOILER** ça va se révéler une excellente décision)
 
-«Déjà 17h15, plus le temps de déployer, plus le temps d'importer toutes les données dans algolia, ça ne va pas être
-jouable dans un temps raisonnable. On fera ça lundi». Et chacun retourne à son foyer.
+De plus, CsCart ne verifiant pas si un produit est modifié lors d'une mise à jour avant de le déclarer mis à jour,
+nous avons mis en place un systéme qui permet de savoir si un produit a réellement été modifié ou non.
+Tout ça dans le but de ne pas renvoyer des données à algolia si on n'en a pas besoin. Plusieurs dizaines de milliers de produits (à l'heure où j'écrits ces lignes) étant mis à jour via CSV chaque nuit, il serait 
+rapidement couteux de tout mettre à jour systématiquement dans algolia.
+
+###Coté site web
+Algolia garantissant des temps de réponses rapides, nous avons décidé d'implémenter la recherche entierement
+coté javascript. La documentation d'algolia est bien faite et viens avec des exemples. De toutes façons que 
+la réquete à algolia soit faite par le navigateur ou par nos serveurs, ça reste toujours une requete vers
+algolia. Autant décharger au maximum notre infrastructer, surtout lorsque ce n'est pas plus cher.
+
+#Ce qui était prévu en ce bel vendredi après midi
+
+Nous devions donc tester la fusion de la branche algolia avec la branche principal le vendredi après-midi, lancer les test unitaires, déployer trois heures avant de finir la journée, s'assurer que tout marche
+et rentrer chez nous, rempli du sentiment du devoir accompli.
+
+#Ce qui s'est réellement passé 
+
+> Tiens, dans ce cas là le produit n'est pas mis à jour !
+
+> Tiens, ici CsCart fait une mise directement dans la base de donnée, du coup, notre hook n'est pas utilisé !
+
+> Tiens, les tests unitaires ne marchent plus ! 
+
+> Quelqu'un a donné les droits sur la file SQS pour la prod ? 
+
+Finalement, la branche prête, il est 17 heures. On est vendredi, on est raisonnables, on reporte le déploiement. 
 
 #Le déploiement
 
@@ -39,8 +83,11 @@ Je bulle gentiment sur mon pc.
 À ce moment là, sentant arriver la suite, je lance ma plus belle console. Petit coup d'historique, premier tunnel SSH.
 Petit coup d'historique, deuxiéme tunnel SSH. Je suis chez moi comme au boulot. Petite capture d'écran.
 
-Benoit : «Bon, tu veux essayer de déployer le bazar? ou sinon on se garde ça pour Lundi». En réponse, la capture d'écran
-la réponse : «Je suis chaud comme la braise» (oui, en début de soirée, je ne suis pas inspiré».
+> Benoit : «Bon, tu veux essayer de déployer le bazar? ou sinon on se garde ça pour Lundi».
+
+En réponse immédiate : la capture d'écran.
+
+> Moi : «Je suis chaud comme la braise» (oui, en début de soirée, je ne suis pas forcement inspiré.)
 
 Petites vérification sur le déroulement des tests de 17h, test rapide pour voir si on peut partager nos écrans. Tant pis.
 
@@ -59,8 +106,8 @@ est purement physique)
 
 Pendant le déploiement on s'est dit qu'initier tout l'index, même si on met en queue les appels à algolia, pourrait prendre
 du temps. Pour être sur de ne pas taper un timeout sur le back-office, on décide de lancer l'init par ligne de commande.
- Pour ne pas avoir a me connecter directement sur la machine, et parce qu'on risque d'avoir à le refaire dans le futur,
-  j'écris rapidement un job jenkins qui fait cela.
+
+Pour ne pas avoir a me connecter directement sur la machine, et parce qu'on risque d'avoir à le refaire dans le futur, j'écris rapidement un job jenkins qui fait cela.
 
 ##21h31 : DEPLOY_Front_and_API - #81 FAILURE after 2 mn 28 s
 
@@ -76,9 +123,9 @@ Je lance l'initialisation d'algolia.
 
 ##21h42 Un chouilla après
 
-> Benoit : «attend... le back me dit qu'il n'y a rien dans l'index... et dans le front j'ai des resultats...»
+> B : «Attend... le back me dit qu'il n'y a rien dans l'index... et dans le front j'ai des resultats...»
 
-> Moi : «Ah tiens, il y a bien les messages dans la queue»
+> M : «Ah tiens, il y a bien les messages dans la queue»
 
 > B : «Rien ne se met à jour sur algolia»
 
@@ -92,8 +139,6 @@ posts de développement par exemple) d'avoir des resultat via des recherches SQL
 
 ##21h52 : On relance DEPLOY_Front_and_API
 
-###21h53 : Je souhaite une bonne nuit à ma femme
-
 ###21h54 : Je m'étale sur le canapé.
 Enfin dans une vraie position de travail !
 
@@ -105,11 +150,19 @@ workers commencent le boulot dès que la machine est lancée.
 
 > M : «il va peut etre falloir vider le cache pour que le bloc de recherche soit le bon ?
       comment je peux savoir sur la page quel service je tape ?»
+
 > B : «vu comme c'est rapide maintenant, on tape bien sur algolia»
 
-##22h10 : On se rend compte que les navigateurs râlent lors des recherches
-Benoit : «par contre, je pense que le worker genere les template en http (pas en https), du coup les images sont taggées
+##22h10 : On se rend compte que les navigateurs râlent lors des recherches (perte du cadenas https)
+>B : «par contre, je pense que le worker genere les template en http (pas en https), du coup les images sont taggées
  en contenu insecure on dirait... j'ai des msg ds firefox»
+
+**Explication pour tous ceux qui pourraient lire cet article sans avoir participé au sprint concerné** : 
+Pour que l'affichage de la requete puisse être traité exclusivement entre le navigateur et algolia, il faut 
+bien à un moment stocker chez algolia le bout d'HTML qui sera rendu dans la page de recherche.
+On s'est rendu compte que les url des images sont en `http://`  au lieu de `https://` Du coup, les navigateurs
+font remarquer à juste titre qu'on a un contenu non sécurisé sur une page qu'on voudrait sécurisée. Du coup, 
+adieu joli cadenas vert.
 
 Les workers ne repondent pas à des requetes http, mais traitent des messages. Du coup, on ne s'est jamais posé la question
 si les workers se considerent en http ou https. De plus, CsCart ( de maniére blameless, mais c'est quand même
@@ -135,12 +188,16 @@ change la config en prod à la volée» ?
 
 ###22h46 : Les messages sont à nouveau traités
 
-###23h01 (je trouve que le 1 reviens souvent) : Discution docker
-Benoit : «Ca va vachement vite un `docker pull node` avec ma grosse connection en fibre optique ; c'est vachement
-bien les gros tuyau. Je me demande comment on peut faire avec des débits plus lent» (je ne garantis pas l'exactitude de
-la citation).
+###22h50 : Tout se déroule normalement
 
-Moi : «Hmmm, ch'ais pas, il me faut un bon quart d'heure moi»
+###22h55 : Tout se déroule normalement, quelque chose doit être en train de se préparer.
+
+###23h01 : Moment de détente, discution docker
+> B : «Ca va vachement vite un `docker pull node` avec ma grosse connection en fibre optique ; c'est vachement
+>bien les gros tuyau. Je me demande comment on peut faire avec des débits plus lent» (je ne garantis pas l'exactitude de
+>la citation).
+
+>M : «Hmmm, ch'ais pas, il me faut un bon quart d'heure moi»
 
 ##23h26 : Messages restant dans la file : 0
 La recherche est pertinente, dynamique, rapide.
@@ -182,8 +239,7 @@ d'être retro-compatible pour que plusieurs versions puissent se chevaucher. Cep
 Je suis très content qu'on ait enfin un moteur de recherche performant. On a tous passés du temps sur l'intégration
 d'algolia et ce premier resultat est plus que probant.
 
-N'hésitez pas à signaler et/ou à corriger les coquilles, fautes et erreurs que vous pourriez constater dans cet articles.
-
+Have fun with {{site.wizacha}}
 
 ...
 
