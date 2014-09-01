@@ -81,15 +81,25 @@ Finalement, la branche prête, il est 17 heures. On est vendredi, nous sommes ra
 ###21h : La prise de contact
 
 Je bulle gentiment sur mon pc.
+<dl class="dl-horizontal hipchat">
+  <dt>Benoit</dt>
+  <dd>(caruso)</dd>
+</dl>
 
-> *Notification HipChat* "Benoit : (caruso)"
 
 À ce moment là, sentant arriver la suite, je lance ma plus belle console. Petit coup d'historique, premier tunnel SSH.
 Petit coup d'historique, deuxième tunnel SSH. Je suis chez moi comme au boulot.
 
-> Benoit : «Bon, tu veux essayer de déployer le bazar? ou sinon on se garde ça pour Lundi».
 
-> Guillaume (moi) : «Je suis chaud comme la braise» (oui, en début de soirée, je ne suis pas forcement inspiré.)
+<dl class="dl-horizontal hipchat">
+  <dt>Benoit</dt>
+  <dd>Bon, tu veux essayer de déployer le bazar? ou sinon on se garde ça pour Lundi</dd>
+
+  <dt>Guillaume</dt>
+  <dd>Je suis chaud comme la braise</dd>
+</dl>
+
+*(Oui, en début de soirée, je ne suis pas forcement inspiré...)*
 
 Petites vérification sur le déroulement des tests de 17h, test rapide pour voir si on peut partager nos écrans. Echec. Tant pis.
 
@@ -97,11 +107,15 @@ C'est parti mon kiki.
 
 ###21h15 : le Merge
 
-> «heu... il y a des trucs (genre addon) à installer en prod après?»
+<dl class="dl-horizontal hipchat">
+  <dt>Benoit</dt>
+  <dd>heu... il y a des trucs (genre addon) à installer en prod après?</dd>
 
-> «Il y a la liste sur le tableau du sprint... au boulot»
+  <dt>Guillaume</dt>
+  <dd>Il y a la liste sur le tableau du sprint... au boulot</dd>
+</dl>
 
-(oui, il est purement physique)
+*(oui, il est purement physique)*
 
 ###21h25 : `LIVE__marketplace - #67 Started by changes from Guillaume Rossignol , Arnaud Benassy , Benoit Viguier (208 file(s) changed)`
 
@@ -127,14 +141,19 @@ de me dire que «NON, ON NE DÉPLOIE PAS UN VENDREDI À 21H !!!!!» (oui, cinq p
 Je lance l'initialisation d'algolia.
 
 ###21h42 Un chouilla après
+<dl class="dl-horizontal hipchat">
+  <dt>Benoit</dt>
+  <dd>Attend, c'est pas cohérent... le back me dit qu'il n'y a rien dans l'index... et dans le front j'ai des résultats...</dd>
 
-> B : «Attend, c'est pas cohérent... le back me dit qu'il n'y a rien dans l'index... et dans le front j'ai des résultats...»
+  <dt>Guillaume</dt>
+  <dd>Ah tiens, il y a bien les messages dans la queue</dd>
 
-> G : «Ah tiens, il y a bien les messages dans la queue»
+  <dt>Benoit</dt>
+  <dd>Rien ne se met à jour sur algolia</dd>
 
-> B : «Rien ne se met à jour sur algolia»
-
-> G : «mais en fait, les messages ne sont pas traités par les workers»
+  <dt>Guillaume</dt>
+  <dd>mais en fait, les messages ne sont pas traités par les workers</dd>
+</dl>
 
 ###21h51 : La révélation
 Donc en fait, j'avais bien fait la mise à jour du fichier de config pour le back en précisant, les nouvelles queues, mais
@@ -153,13 +172,21 @@ workers commencent le boulot dès que la machine est lancée.
 
 ###22h03 : `DEPLOY_Front_and_API - #83 Success after 11 mn`
 
-> G : «il va peut etre falloir vider le cache pour que le bloc de recherche soit le bon ?
-      comment je peux savoir sur la page quel service je tape ?»
+<dl class="dl-horizontal hipchat">
+  <dt>Guillaume</dt>
+  <dd>il va peut etre falloir vider le cache pour que le bloc de recherche soit le bon ?
+            comment je peux savoir sur la page quel service je tape ?</dd>
 
-> B : «vu comme c'est rapide maintenant, on tape bien sur algolia»
+  <dt>Benoit</dt>
+  <dd>vu comme c'est rapide maintenant, on tape bien sur algolia</dd>
+</dl>
 
 ###22h10 : On se rend compte que les navigateurs râlent lors des recherches (perte du cadenas https)
-> B : «par contre, je pense que le worker génère les templates en http (pas en https), du coup les images sont taggées en contenu insecure on dirait... j'ai des msg dans firefox»
+
+<dl class="dl-horizontal hipchat">
+  <dt>Benoit</dt>
+  <dd>par contre, je pense que le worker génère les templates en http (pas en https), du coup les images sont taggées en contenu insecure on dirait... j'ai des msg dans firefox</dd>
+</dl>
 
 **Explication** :
 Pour que l'affichage de la requete puisse être traité exclusivement entre le navigateur et algolia, il faut 
@@ -187,10 +214,14 @@ Du coup, je me jette sur SQS pour voir ce que font nos messages. Globalement, il
 taper la commande SSH pour me connecter aux workers, Benoit confirme ce qu'il craignait : `«Too many requests»`. On a tapé
 le quota sur la machine. Algolia, conformément à notre configuration, nous interdit de nous mettre à jour.
 
-> G: «Ben on augmente le quota».
+<dl class="dl-horizontal hipchat">
+  <dt>Guillaume</dt>
+  <dd>Ben on augmente le quota</dd>
 
-> B: «Oui, mais du coup, on doit aussi changer la clé, donc est-ce qu'on
-change la config en prod à la volée» ?
+  <dt>Benoit</dt>
+  <dd>Oui, mais du coup, on doit aussi changer la clé, donc est-ce qu'on
+      change la config en prod à la volée?</dd>
+</dl>
 
 ###22h46 : Les messages sont à nouveau traités
 
@@ -198,15 +229,9 @@ change la config en prod à la volée» ?
 
 ###22h55 : Tout se déroule normalement, quelque chose doit être en train de se préparer.
 
-###23h01 : Moment de détente, discution [docker](http://docker.io)
-> B : «Ca va vachement vite un `docker pull node` avec ma grosse connection en fibre optique ; c'est vachement
->bien les gros tuyaux. Je me demande comment on peut faire avec des débits plus lents»
+###23h01 : Moment de détente, discussion [docker](http://docker.io)
 
- **Note:** je ne garantie pas l'exactitude cette citation...
-
-> G : «Hmmm, ch'ais pas, il me faut un bon quart d'heure moi»
-
-###23h26 : Message restant dans la file : 0
+###23h26 : Message restant dans la file : `0`
 La recherche est pertinente, dynamique, rapide.
 
 **Mission accomplie**

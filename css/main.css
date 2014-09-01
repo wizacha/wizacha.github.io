@@ -12,3 +12,19 @@ footer {
     margin: 0 auto;
     height: 200px;
 }
+
+dl.hipchat {
+    border: 1px solid #E1E1E1;
+}
+
+dl.hipchat dt {
+    background: #EEE;
+    text-shadow: #FFF 1px 1px;
+    border-right: 1px solid #E1E1E1;
+    padding: 10px;
+}
+
+dl.hipchat dd {
+    border-bottom: 1px solid #E1E1E1;
+    padding: 10px;
+}
