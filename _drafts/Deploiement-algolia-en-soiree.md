@@ -34,10 +34,10 @@ A chaque déploiement, nous lançons, via un template CloudFormation et un ensem
 
 #Introduction
 L'objectif principal de ce [sprint](http://fr.wikipedia.org/wiki/Scrum_%28m%C3%A9thode%29#Le_sprint)
-était l'intégration d'un moteur de recherche pour palier le manque de glamour de la recherche de CsCart.
+était l'intégration d'un moteur de recherche pour pallier le manque de glamour de la recherche de CsCart.
 
 ##Les choix techniques
-Nous avons envisagé un temps de gérer une base de données NoSQL pour la gestion des recherches. Finalement
+Nous avons envisagé un temps de gérer une base de données NoSQL dédiée aux recherches. Finalement
 suite à une discussion avec la maîtrise d'ouvrage, tout le monde était d'accord pour utiliser une solution 
 «toute prête» pour nous faire gagner de la qualité, et du temps (et donc de l'argent).
 
@@ -49,14 +49,14 @@ La mise a jour des données dans algolia sera faite de manière asynchrone grâc
 Ça permet aussi de ne pas se poser la question de ce qu'il faut faire lorsqu'un marchand veut mettre à jour un produit et qu'Algolia n'est pas disponible. Le message restera juste un peu plus longtemps dans la file. (**ALERTE SPOILER** ça va se révéler une excellente décision)
 
 De plus, CsCart ne vérifiant pas si un produit est modifié lors d'une mise à jour avant de le déclarer mis à jour,
-nous avons mis en place un systéme qui permet de savoir si un produit a réellement été modifié ou non.
+nous avons mis en place un système qui permet de savoir si un produit a réellement été modifié ou non.
 Tout ça dans le but de ne pas renvoyer des données à algolia si on n'en a pas besoin. Plusieurs dizaines de milliers de produits (à l'heure où j'écris ces lignes) étant mis à jour via CSV chaque nuit, il serait
-rapidement couteux de tout mettre à jour systématiquement dans algolia.
+rapidement coûteux de tout mettre à jour systématiquement dans algolia.
 
 ###Coté site web
-Algolia garantissant des temps de réponse rapides, nous avons décidé d'implémenter la recherche entièrement
-coté javascript. La documentation d'algolia est bien faite et vient avec des exemples. De toutes façons que 
-la réquete à algolia soit faite par le navigateur ou par nos serveurs, ça reste toujours une requete vers
+Algolia garantissant des temps de réponse rapides (<14ms), nous avons décidé d'implémenter la recherche entièrement
+côté javascript. La documentation d'algolia est bien faite et vient avec des exemples. De toutes façons que
+la requête à algolia soit faite par le navigateur ou par nos serveurs, ça reste toujours une requête vers
 algolia. Autant décharger au maximum notre infrastructure, surtout lorsque ce n'est pas plus cher.
 
 #Le déploiement
@@ -156,10 +156,10 @@ Je lance l'initialisation d'algolia.
 </dl>
 
 ###21h51 : La révélation
-Donc en fait, j'avais bien fait la mise à jour du fichier de config pour le back en précisant, les nouvelles queues, mais
+Donc en fait, j'avais bien fait la mise à jour du fichier de config pour le back en précisant les nouvelles queues, mais
 je n'avais pas fait la mise à jour dans la configuration des workers. On avait des résultats en front car on a une
 couche d'abstraction sur les recherches qui permet, si algolia n'est pas disponible, ou pas configuré (comme sur les
-posts de développement par exemple) d'avoir des resultat via des recherches SQL.
+postes de développement par exemple) d'avoir des résultats via des recherches SQL.
 
 ###21h52 : On relance `DEPLOY_Front_and_API`
 
@@ -240,12 +240,12 @@ La recherche est pertinente, dynamique, rapide.
 ##Les points positifs
 
 * Algolia (le fossé entre la recherche qu'on avait en sql et celle qu'on a maintenant est hallucinant)
-* L'architecture de déploiement s'est revelée robuste.
+* L'architecture de déploiement s'est révélée robuste.
 On a un déploiement qui a échoué, on a redéployé plusieurs fois des machines, et cependant, tous les services
 sont restés fonctionnels pendant toute la durée du déploiement.
 * L'architecture du site s'est révélée robuste.
 J'avais fait une erreur sur la configuration de la recherche en front. Le site est quand même resté fonctionnel. Du
-coup, on sait que si algolia tombe, ça ne pose pas de probléme majeur.
+coup, on sait que si algolia tombe, ça ne pose pas de problème majeur.
 * La préparation du déploiement : malgré quelques loupés en amont du déploiement, au moment du déploiement, on avait
 tout sous la main pour être réactifs et analyser les problèmes qui se sont présentés.
 
@@ -253,11 +253,11 @@ tout sous la main pour être réactifs et analyser les problèmes qui se sont pr
 
 * On s'y est repris à plusieurs fois pour déployer
 * On a fait une modication dans un fichier de config php à la main sur le serveur de prod. Ce qui laisse supposer que
-ca devrait être un reglage de l'application qu'on devrait pouvoir modifier dans le back-office
-* On a manqué de controle en amont du déploiement
+ca devrait être un réglage de l'application qu'on devrait pouvoir modifier dans le back-office
+* On a manqué de contrôle en amont du déploiement
 
 ##Les axes d'améliorations
-Le déploiement devrait être plus resistant aux échecs, re-essayer en fonction de l'erreur rencontrée.
+Le déploiement devrait être plus résistant aux échecs, re-essayer en fonction de l'erreur rencontrée.
 
 Il faut mettre de la qualité dans jenkins. Si quelqu'un fait une modification dans un fichier pour remplacer un
 `$count = $count + 1 ` par un `$count++` deux autres personnes vont lire la ligne et l'approuver. Par contre, si quelqu'un
@@ -265,7 +265,7 @@ supprime la moitié des fichiers de config ou décide de rajouter des étapes au
 
 Les déploiements sont longs. Même une fois qu'on a passé les tests, il faut au moins un quart d'heure pour déployer une
 pile complète (front, back, api, workers). Ce n'est pas dramatique vu notre taille actuelle et parce qu'on fait en sorte
-d'être retro-compatible pour que plusieurs versions puissent se chevaucher. Cependant, ça va finir par devenir gênant.
+d'être rétro-compatibles pour que plusieurs versions puissent se chevaucher. Cependant, ça va finir par devenir gênant.
 
 ##Conclusion
 Je suis très content qu'on ait enfin un moteur de recherche performant. On a tous passé du temps sur l'intégration
