@@ -14,17 +14,33 @@ footer {
 }
 
 dl.hipchat {
-    border: 1px solid #E1E1E1;
+    background : url("/images/logo-hipchat.png");
+    background-size: 30px 30px;
+    background-repeat: no-repeat;
+    padding: 30px;
 }
 
 dl.hipchat dt {
     background: #EEE;
     text-shadow: #FFF 1px 1px;
-    border-right: 1px solid #E1E1E1;
-    padding: 10px;
+    padding: 10px 10px 0px 0;    
 }
 
 dl.hipchat dd {
-    border-bottom: 1px solid #E1E1E1;
-    padding: 10px;
+      padding: 10px;
+}
+
+h2 .timer, h3 .timer{
+    display: inline-block;
+    vertical-align: top;
+}
+
+h2 .jenkins, h3 .jenkins{
+    display: inline-block;
+    width: 80%;
+    background-image : url("/images/logo-jenkins.png");
+    background-size: 30px 30px;
+    background-repeat: no-repeat;
+    padding: 0 0 5px 30px;
+    text-align:justify;
 }
