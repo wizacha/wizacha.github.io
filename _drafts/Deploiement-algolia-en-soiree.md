@@ -105,7 +105,7 @@ Petites vérification sur le déroulement des tests de 17h, test rapide pour voi
 
 C'est parti mon kiki.
 
-###21h15 : le Merge
+###<span class="timer">21h15 :</span> le Merge
 
 <dl class="dl-horizontal hipchat">
   <dt>Benoit</dt>
@@ -117,18 +117,18 @@ C'est parti mon kiki.
 
 *(oui, il est purement physique)*
 
-###21h25 : `LIVE__marketplace - #67 Started by changes from Guillaume Rossignol , Arnaud Benassy , Benoit Viguier (208 file(s) changed)`
+###<span class="timer">21h25 : </span><span class="jenkins bg-success">LIVE__marketplace - #67 Started by changes from Guillaume Rossignol , Arnaud Benassy , Benoit Viguier (208 file(s) changed)</span>
 
 (note personnelle : j'aime les notifications [hipchat](https://www.hipchat.com/) de jenkins)
 
-###21h30 : Création de la tâche jenkins pour mettre à jour tout l'index
+###<span class="timer">21h30 : </span>Création de la tâche jenkins pour mettre à jour tout l'index
 
 Pendant le déploiement on s'est dit qu'initialiser tout l'index, même si on met en queue les appels à algolia, pourrait prendre
 du temps. Pour être sûr de ne pas taper un timeout sur le back-office, on décide de lancer l'init par ligne de commande.
 
 Pour ne pas avoir à me connecter directement sur la machine, et parce qu'on risque d'avoir à le refaire dans le futur, j'écris rapidement un job jenkins qui fait cela.
 
-###21h31 : `DEPLOY_Front_and_API - #81 FAILURE after 2 mn 28 s`
+###<span class="timer">21h31 :</span> <span class="jenkins bg-danger">DEPLOY\_Front\_and\_API - #81 FAILURE after 2 mn 28s</span>
 
 **Branle-bas de combat** Rapide coup d'oeil sur les logs, rapide coup d'oeil sur AWS. Une des instances EC2 a été mise
 en *instable* par CloudFormation. Il n'y a pas de raison pour que ça vienne de nous, je relance la tâche.
@@ -137,10 +137,10 @@ en *instable* par CloudFormation. Il n'y a pas de raison pour que ça vienne de 
 À ce moment, je ne peux m'empêcher de me demander s'il n'existe pas un dieu de l'informatique et si ce n'est pas sa façon
 de me dire que «NON, ON NE DÉPLOIE PAS UN VENDREDI À 21H !!!!!» (oui, cinq points d'exclamations)
 
-###21h42 : `DEPLOY_Front_and_API - #82 Back to normal after 9 mn 32 s`
+###<span class="timer">21h42 :</span> <span class="jenkins bg-success">DEPLOY\_Front\_and\_API - #82 Back to normal after 9 mn 32 s</span>
 Je lance l'initialisation d'algolia.
 
-###21h42 Un chouilla après
+###<span class="timer">21h42 Un chouilla après</timer>
 <dl class="dl-horizontal hipchat">
   <dt>Benoit</dt>
   <dd>Attend, c'est pas cohérent... le back me dit qu'il n'y a rien dans l'index... et dans le front j'ai des résultats...</dd>
@@ -155,22 +155,22 @@ Je lance l'initialisation d'algolia.
   <dd>mais en fait, les messages ne sont pas traités par les workers</dd>
 </dl>
 
-###21h51 : La révélation
+###<span class="timer">21h51 : </span>La révélation
 Donc en fait, j'avais bien fait la mise à jour du fichier de config pour le back en précisant les nouvelles queues, mais
 je n'avais pas fait la mise à jour dans la configuration des workers. On avait des résultats en front car on a une
 couche d'abstraction sur les recherches qui permet, si algolia n'est pas disponible, ou pas configuré (comme sur les
 postes de développement par exemple) d'avoir des résultats via des recherches SQL.
 
-###21h52 : On relance `DEPLOY_Front_and_API`
+###<span class="timer">21h52 : </span>On relance `DEPLOY_Front_and_API`
 
-###21h54 : Je m'étale sur le canapé.
+###<span class="timer">21h54 :</span> Je m'étale sur le canapé.
 Enfin dans une vraie position de travail !
 
-###22h01 : Les premiers messages de la queue sont traités
+###<span class="timer">22h01 :</span> Les premiers messages de la queue sont traités
 La tâche de déploiement n'est pas encore finie car elle se déclare finie une fois que les DNS sont à jour. Cependant nos
 workers commencent le boulot dès que la machine est lancée.
 
-###22h03 : `DEPLOY_Front_and_API - #83 Success after 11 mn`
+###<span class="timer">22h03 :</span> <span class="jenkins bg-success">DEPLOY\_Front\_and\_API - #83 Success after 11 mn`
 
 <dl class="dl-horizontal hipchat">
   <dt>Guillaume</dt>
@@ -181,7 +181,7 @@ workers commencent le boulot dès que la machine est lancée.
   <dd>vu comme c'est rapide maintenant, on tape bien sur algolia</dd>
 </dl>
 
-###22h10 : On se rend compte que les navigateurs râlent lors des recherches (perte du cadenas https)
+###<span class="timer">22h10 : </span>On se rend compte que les navigateurs râlent lors des recherches (perte du cadenas https)
 
 <dl class="dl-horizontal hipchat">
   <dt>Benoit</dt>
@@ -204,12 +204,12 @@ plus c'est un appel de fonction planqué dans un template.
 Bref, on a laissé passer un bug. Pour le coup, il est un petit peu gênant, mais les navigateurs sont heureux dès qu'on
 retourne sur les pages produits, donc ça ne mérite pas un rollback.
 
-###22h12 : Un petit [tweet](https://twitter.com/Rgousi/statuses/505449895445397507) pour la forme
+###<span class="timer">22h12 :</span> Un petit [tweet](https://twitter.com/Rgousi/statuses/505449895445397507) pour la forme
 **Note pour la prochaine fois** : Envisager un live-tweet
 
 Papotage avec le directeur technique sur les prochaines tâches à traiter, sur les outils, etc.
 
-###22h41 : Erreur 403 de la part d'algolia.
+###<span class="timer">22h41 :</span> Erreur 403 de la part d'algolia.
 Du coup, je me jette sur SQS pour voir ce que font nos messages. Globalement, ils stagnent. Au moment où je commence à
 taper la commande SSH pour me connecter aux workers, Benoit confirme ce qu'il craignait : `«Too many requests»`. On a tapé
 le quota sur la machine. Algolia, conformément à notre configuration, nous interdit de nous mettre à jour.
@@ -223,15 +223,15 @@ le quota sur la machine. Algolia, conformément à notre configuration, nous int
       change la config en prod à la volée?</dd>
 </dl>
 
-###22h46 : Les messages sont à nouveau traités
+###<span class="timer">22h46 :</span> Les messages sont à nouveau traités
 
-###22h50 : Tout se déroule normalement
+###<span class="timer">22h50 :</span> Tout se déroule normalement
 
-###22h55 : Tout se déroule normalement, quelque chose doit être en train de se préparer.
+###<span class="timer">22h55 :</span> Tout se déroule normalement, quelque chose doit être en train de se préparer.
 
-###23h01 : Moment de détente, discussion [docker](http://docker.io)
+###<span class="timer">23h01 :</span>Moment de détente, discussion [docker](http://docker.io)
 
-###23h26 : Message restant dans la file : `0`
+###<span class="bg-success"><span class="timer">23h26 :</span> Message restant dans la file : 0</span>
 La recherche est pertinente, dynamique, rapide.
 
 **Mission accomplie**
