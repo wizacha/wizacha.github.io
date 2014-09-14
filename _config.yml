@@ -1,4 +1,4 @@
-markdown: redcarpet
+markdown: kramdown
 
 name: Wizacha Tech-Side
 wizacha: "<a href='https://wizacha.com'>Wizacha</a>"

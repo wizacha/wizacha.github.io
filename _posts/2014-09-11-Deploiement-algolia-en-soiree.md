@@ -12,6 +12,7 @@ C'est vrai, imaginez que ça se passe mal, ou qu'il y ai un ennui de dernière m
 Ceci étant dit...
 
 #Préambule
+
 ##Notre stack technique
 Pour les besoins de cet article, voici une description partielle de notre stack. Il y aura certainement un article plus complet un jour pour décrire toute notre architecture.
 
@@ -81,6 +82,7 @@ Finalement, la branche prête, il est 17 heures. On est vendredi, nous sommes ra
 ###21h : La prise de contact
 
 Je bulle gentiment sur mon pc.
+
 <dl class="dl-horizontal hipchat">
   <dt>Benoit</dt>
   <dd>(caruso)</dd>
@@ -140,7 +142,7 @@ de me dire que «NON, ON NE DÉPLOIE PAS UN VENDREDI À 21H !!!!!» (oui, cinq p
 ###<span class="timer">21h42 :</span> <span class="jenkins bg-success">DEPLOY\_Front\_and\_API - #82 Back to normal after 9 mn 32 s</span>
 Je lance l'initialisation d'algolia.
 
-###<span class="timer">21h42 Un chouilla après</timer>
+###<span class="timer">21h42 Un chouilla après</span>
 <dl class="dl-horizontal hipchat">
   <dt>Benoit</dt>
   <dd>Attend, c'est pas cohérent... le back me dit qu'il n'y a rien dans l'index... et dans le front j'ai des résultats...</dd>
@@ -237,6 +239,7 @@ La recherche est pertinente, dynamique, rapide.
 **Mission accomplie**
 
 #Le bilan
+
 ##Les points positifs
 
 * Algolia (le fossé entre la recherche qu'on avait en sql et celle qu'on a maintenant est hallucinant)
