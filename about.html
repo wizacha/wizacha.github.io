@@ -37,9 +37,11 @@ order: 15
             <dt>Citation</dt>
             <dd class="text-left"><q>{{member[1].quote}}</q></dd>
         </dl>
+        {% if member[1].twitter %}
         <p>
             <a href="https://twitter.com/{{member[1].twitter}}" class="twitter-follow-button" data-show-count="false" data-size="large">Suivre {{@member[1].twitter}}</a>
         </p>
+        {% endif %}
     </div>
     {% endfor %}
 

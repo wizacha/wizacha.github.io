@@ -24,3 +24,10 @@ guillaume:
   job: Développeur
   skill: DevOps
   quote: C'est monitoré?
+
+anonymous:
+  name_full: Vous ?
+  avatar: /images/facebook-geek-avatar.jpg
+  job: Futur collaborateur
+  skill: "<a href='http://www.lacuisineduweb.com/jobs/view/recherche-dc3a9veloppeur-web-spc3a9cialisc3a9-backend-en-cdi-c3a0-lyon'>Backend</a>"
+  quote: Je commence quand?
