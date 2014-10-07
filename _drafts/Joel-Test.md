@@ -23,7 +23,7 @@ d'une équipe pour le développement. Bien que ne payant pas de mine, ce test es
 pour servir de référence, de point de comparaison. Par exemple, lorsque vous souhaitez déposer une annonce
 sur [stackoverflow](http://stackoverflow.com/), vous êtes priés de [renseigner ces 12 questions](http://careers.stackoverflow.com/jobs/post)
 pour que les candidats puissent savoir
-*où* ils postulent[^stackoverflow]. Je trouve l'idée très bonne, elle permet de montrer en toute transparence le niveau d'une
+*où* ils postulent[^stackoverflow]. Je trouve l'idée très bonne, elle permet de montrer en toute transparence le *niveau* d'une
 équipe, et vers quoi on se dirige. Voici donc notre résultat à ce test, au moment ou j'écris ces lignes.
 
 [^stackoverflow]: Il se trouve que le créateur de ce test est aussi l'un des fondateurs du site... ça aide un peu!
@@ -108,14 +108,11 @@ supplémentaires entre ceux qui ont les *idées* et ceux qui savent comment les 
 
 ###Do programmers have quiet working conditions?
 
-Oui, et c'est très agréable!
-Tout d'abord notre matériel est neuf, acheté à l'arrivée de chaque développeur, et correspondant au mieux à ces
-habitudes (souris, trackball, disposition du clavier...). Bien qu'on soit tous dans le même bureau, les développeurs
+Bien qu'on soit tous dans le même bureau, les développeurs
 ont leur propre espace pour ne pas déranger les autres, ni être trop dérangés. Certains aiment bien écouter
 de la musique au casque en travaillant, mais on reste toujours joignable via notre système de *tchat* (Hipchat, et Google).
 Nos locaux sont au sein [d'une pépinière d'entreprise](http://rives-numeriques.fr/),
 ce qui nous permet de partager des espaces communs agréables et tous neufs: cuisine, salles de réunions, babyfoot...
-Non, franchement, on ne se plaint pas :)
 
 ###Do you use the best tools money can buy?
 
@@ -123,7 +120,14 @@ Dans une startup, les dépenses ne peuvent pas se faire à la légère, mais lor
 gagner du temps ou en qualité on hésite rarement. Pour l'IDE, nous avons des licences
 [PhpStorm](http://www.jetbrains.com/phpstorm/). Pour le site internet, nous faisons appel à plusieurs services
 tiers payants pour économiser en temps, et gagner en qualité (emails, moteur de recherche...).
+Le *bugtracker* devrait aussi faire partie de ces investissements à court terme.
 
+En ce qui concerne le matériel, tout est neuf, acheté à l'arrivée de chaque développeur, et correspondant au mieux à ses
+habitudes (souris, trackball, disposition du clavier...). Lorsque le budget le permet (et ça a été le cas jusqu'ici), on
+essaye de fournir un ordinateur portable (en plus) à chaque développeur. Cela est certes utile lors de déplacements,
+mais c'est surtout que si l'on veut qu'un développeur fasse de la veille, si on veut l'encourage à s'auto-former,
+et bien il faut au moins lui en donner les moyens! Donc ceux qui le souhaitent peuvent profiter
+de cette machine chez eux pour coder, s'amuser... ou même *bloguer*.
 
 ###Do you have testers?
 
@@ -143,8 +147,8 @@ et définir les interfaces utilisateurs, mais on sait qu'on peut encore s'améli
 
 #Le total
 
-C'est l'heure des comptes! Les pessimistes nous donnerons 7/12, les optimistes 8,5/12.
-L'article original dit que la plupart des société de logiciel tournent autour de 2 ou 3...
+C'est l'heure des comptes! Les pessimistes nous donnerons 7/12, les optimistes 8,5/12[^IKnow].
+L'article original dit que la plupart des sociétés du logiciel tournent autour de 2 ou 3...
 j'espère vraiment que ça a évolué en 10 ans. Quelque soit la note obtenue, on peut toujours
 s'améliorer, et c'est ce que nous essayons de faire progressivement, en accord avec
 toutes les *à côtés* qui peuvent survenir dans la vie d'une startup.
